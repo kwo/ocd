@@ -4,6 +4,7 @@ import (
 	"encoding/xml"
 	"github.com/kwo/ocd/feeds/modules/atom"
 	"github.com/kwo/ocd/feeds/modules/media"
+	"strings"
 	"time"
 )
 
@@ -20,8 +21,8 @@ type Channel struct {
 	Language      string     `xml:"language"`
 	Copyright     string     `xml:"copyright"`
 	WebMaster     string     `xml:"webMaster"`
-	pubDate       time.Time  `xml:"pubDate"`
-	LastBuildDate time.Time  `xml:"lastBuildDate"`
+	pubDate       Time       `xml:"pubDate"`
+	LastBuildDate Time       `xml:"lastBuildDate"`
 	Categories    []Category `xml:"category"`
 	Generator     string     `xml:"generator"`
 	Docs          string     `xml:"docs"`
@@ -74,7 +75,7 @@ type Item struct {
 	Comments    string     `xml:"comments"`
 	Enclosure   Enclosure  `xml:"enclosure"`
 	Guid        Guid       `xml:"guid"`
-	PubDate     string     `xml:"pubDate"`
+	PubDate     Time       `xml:"pubDate"`
 	Source      Source     `xml:"source"`
 	media.Media
 }
@@ -94,4 +95,43 @@ type Guid struct {
 type Source struct {
 	Url  string `xml:"url,attr"`
 	Text string `xml:",chardata"`
+}
+
+type Time struct {
+	Text string `xml:",chardata"`
+}
+
+func (z Time) GetTime() time.Time {
+	result, _ := parseTime(z.Text)
+	return result
+}
+
+// taken from https://github.com/jteeuwen/go-pkg-rss/ timeparser.go
+func parseTime(formatted string) (time.Time, error) {
+	var layouts = [...]string{
+		"Mon, _2 Jan 2006 15:04:05 MST",
+		"Mon, _2 Jan 2006 15:04:05 -0700",
+		time.ANSIC,
+		time.UnixDate,
+		time.RubyDate,
+		time.RFC822,
+		time.RFC822Z,
+		time.RFC850,
+		time.RFC1123,
+		time.RFC1123Z,
+		time.RFC3339,
+		time.RFC3339Nano,
+		"Mon, 2, Jan 2006 15:4",
+		"02 Jan 2006 15:04:05 MST",
+	}
+	var t time.Time
+	var err error
+	formatted = strings.TrimSpace(formatted)
+	for _, layout := range layouts {
+		t, err = time.Parse(layout, formatted)
+		if !t.IsZero() {
+			break
+		}
+	}
+	return t, err
 }
