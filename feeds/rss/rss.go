@@ -125,6 +125,8 @@ func parseTime(formatted string) (time.Time, error) {
 		"02 Jan 2006 15:04:05 MST",
 		"_2 Jan 2006 15:04:05 +0000", // found in the wild, differs slightly from RFC822Z
 		"2006-01-02 15:04:05",        // found in the wild, apparently RFC3339 was too difficult
+		"_2 Jan 2006",
+		"2006-01-02",
 	}
 	var t time.Time
 	var err error
