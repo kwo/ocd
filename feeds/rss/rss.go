@@ -3,6 +3,7 @@ package rss
 import (
 	"encoding/xml"
 	"github.com/kwo/ocd/feeds/modules/atom"
+	"github.com/kwo/ocd/feeds/modules/content"
 	"github.com/kwo/ocd/feeds/modules/dublincore"
 	"github.com/kwo/ocd/feeds/modules/media"
 	"strings"
@@ -80,6 +81,7 @@ type Item struct {
 	Source      Source     `xml:"source"`
 	media.Media
 	dublincore.DublinCore
+	content.Content
 }
 
 type Enclosure struct {
