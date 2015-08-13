@@ -21,7 +21,7 @@ type Channel struct {
 	Language      string     `xml:"language"`
 	Copyright     string     `xml:"copyright"`
 	WebMaster     string     `xml:"webMaster"`
-	pubDate       Time       `xml:"pubDate"`
+	PubDate       Time       `xml:"pubDate"`
 	LastBuildDate Time       `xml:"lastBuildDate"`
 	Categories    []Category `xml:"category"`
 	Generator     string     `xml:"generator"`
