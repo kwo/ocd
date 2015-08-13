@@ -20,7 +20,7 @@ func TestRss(t *testing.T) {
 	err = xml.Unmarshal(body, &rdf)
 	if err != nil {
 		t.Error("Error parsing response:", err)
-	} else if rdf.Channel.Link != "https://pinboard.in/u:fisher.lebo/public/" {
+	} else if rdf.Channel.Link != "https://pinboard.in/u:/public/" {
 		t.Error("bad RDF.Channel.Link")
 	}
 }
