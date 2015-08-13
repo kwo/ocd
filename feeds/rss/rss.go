@@ -123,6 +123,7 @@ func parseTime(formatted string) (time.Time, error) {
 		time.RFC3339Nano,
 		"Mon, 2, Jan 2006 15:4",
 		"02 Jan 2006 15:04:05 MST",
+		"_2 Jan 2006 15:04:05 +0000", // found in the wild, differs slightly from RFC822Z
 	}
 	var t time.Time
 	var err error
